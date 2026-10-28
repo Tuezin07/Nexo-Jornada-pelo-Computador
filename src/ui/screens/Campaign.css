@@ -1,0 +1,137 @@
+.campaign {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 980px) {
+  .campaign {
+    grid-template-columns: 360px minmax(0, 1fr);
+    align-items: start;
+  }
+  .sector-map {
+    position: sticky;
+    top: calc(var(--topbar-h) + var(--space-4));
+  }
+}
+
+.sector-map {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  position: relative;
+}
+
+/* Linha da jornada ligando os setores */
+.sector-map::before {
+  content: '';
+  position: absolute;
+  left: 39px;
+  top: 30px;
+  bottom: 30px;
+  width: 2px;
+  background: repeating-linear-gradient(var(--line-strong) 0 6px, transparent 6px 12px);
+}
+
+.sector-node {
+  position: relative;
+}
+
+.sector-card {
+  position: relative;
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color var(--dur-fast), transform var(--dur) var(--ease-out);
+}
+
+.sector-card:hover {
+  transform: translateX(3px);
+  border-color: color-mix(in srgb, var(--sector-color) 45%, var(--line));
+}
+
+.sector-card[aria-current='true'] {
+  border-color: var(--sector-color);
+  box-shadow: inset 3px 0 0 var(--sector-color);
+}
+
+.sector-emblem {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+  background: color-mix(in srgb, var(--sector-color) 18%, var(--surface-2));
+  color: var(--sector-color);
+}
+
+.sector-node.complete .sector-emblem {
+  background: var(--sector-color);
+  color: var(--accent-ink);
+}
+
+.sector-node.locked .sector-emblem {
+  background: var(--surface-2);
+  color: var(--text-faint);
+}
+
+.sector-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.sector-info strong {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.sector-info .tagline {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.sector-info .meter {
+  margin-top: 4px;
+}
+
+.progress-text,
+.lock-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+.sector-node.complete .progress-text {
+  color: var(--sector-color);
+}
+
+.sector-node.locked .sector-card {
+  background: var(--bg-raised);
+}
+
+.sector-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border-top: 3px solid var(--sector-color);
+}
+
+.sector-detail h2 {
+  font-size: clamp(1.4rem, 1.6vw + 1rem, 2rem);
+}

@@ -1,0 +1,134 @@
+/*
+ * Tokens visuais do Nexo.
+ * Tema padrão: grafite profundo com acento "fósforo" (verde-lima elétrico).
+ * Toda cor de texto aqui foi escolhida para contraste ≥ 4.5:1 sobre as superfícies.
+ */
+:root {
+  color-scheme: dark;
+
+  --bg: #090c11;
+  --bg-raised: #0e131a;
+  --surface: #131a23;
+  --surface-2: #19222e;
+  --surface-3: #212c3a;
+  --line: #243041;
+  --line-strong: #33425a;
+
+  --text: #e7ecf3;
+  --text-muted: #a1adbd;
+  --text-faint: #7f8b9d;
+
+  --accent: #c4f43d;
+  --accent-strong: #d6ff5c;
+  --accent-ink: #0b0f05;
+  --accent-soft: rgba(196, 244, 61, 0.12);
+  --accent-line: rgba(196, 244, 61, 0.38);
+
+  --signal: #5fd4e8;
+  --signal-soft: rgba(95, 212, 232, 0.12);
+  --warn: #ffb648;
+  --warn-soft: rgba(255, 182, 72, 0.12);
+  --danger: #ff6f61;
+  --danger-soft: rgba(255, 111, 97, 0.12);
+  --ok: var(--accent);
+  --ok-soft: var(--accent-soft);
+
+  /* Identidade de cada setor */
+  --sector-fundamentos: #c4f43d;
+  --sector-sistema: #5fd4e8;
+  --sector-rede-segura: #ac8fff;
+  --sector-diagnostico: #ffb648;
+  --sector-eficiencia: #ff7fae;
+
+  --grid-line: rgba(140, 170, 210, 0.045);
+  --shadow-1: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 8px 24px -12px rgba(0, 0, 0, 0.7);
+  --shadow-pop: 0 18px 50px -18px rgba(0, 0, 0, 0.85);
+
+  --font-display: 'Chakra Petch', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+
+  --font-scale: 1;
+  --radius-s: 6px;
+  --radius: 10px;
+  --radius-l: 16px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur: 220ms;
+  --dur-slow: 420ms;
+
+  --page-max: 1180px;
+  --topbar-h: 60px;
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--signal);
+}
+
+:root[data-theme='claro'] {
+  color-scheme: light;
+  --bg: #eef1ea;
+  --bg-raised: #f6f8f2;
+  --surface: #ffffff;
+  --surface-2: #f2f5ee;
+  --surface-3: #e5eadf;
+  --line: #d3dacb;
+  --line-strong: #b4bfa8;
+  --text: #121812;
+  --text-muted: #46524a;
+  --text-faint: #5e6a61;
+  --accent: #4a7a00;
+  --accent-strong: #3b6300;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(74, 122, 0, 0.1);
+  --accent-line: rgba(74, 122, 0, 0.45);
+  --signal: #00708a;
+  --signal-soft: rgba(0, 112, 138, 0.1);
+  --warn: #8a5300;
+  --warn-soft: rgba(176, 106, 0, 0.12);
+  --danger: #b3261e;
+  --danger-soft: rgba(179, 38, 30, 0.1);
+  --sector-fundamentos: #4a7a00;
+  --sector-sistema: #00708a;
+  --sector-rede-segura: #5b3fc4;
+  --sector-diagnostico: #8a5300;
+  --sector-eficiencia: #b0306a;
+  --grid-line: rgba(40, 60, 30, 0.05);
+  --shadow-1: 0 1px 2px rgba(20, 30, 10, 0.06), 0 8px 24px -16px rgba(20, 30, 10, 0.25);
+  --shadow-pop: 0 18px 50px -20px rgba(20, 30, 10, 0.35);
+}
+
+:root[data-theme='contraste'] {
+  color-scheme: dark;
+  --bg: #000000;
+  --bg-raised: #000000;
+  --surface: #000000;
+  --surface-2: #0d0d0d;
+  --surface-3: #1a1a1a;
+  --line: #ffffff;
+  --line-strong: #ffffff;
+  --text: #ffffff;
+  --text-muted: #ffffff;
+  --text-faint: #e0e0e0;
+  --accent: #e8ff1a;
+  --accent-strong: #f4ff7a;
+  --accent-ink: #000000;
+  --accent-soft: rgba(232, 255, 26, 0.18);
+  --accent-line: #e8ff1a;
+  --signal: #4df0ff;
+  --signal-soft: rgba(77, 240, 255, 0.18);
+  --warn: #ffcc33;
+  --warn-soft: rgba(255, 204, 51, 0.2);
+  --danger: #ff8a80;
+  --danger-soft: rgba(255, 138, 128, 0.2);
+  --grid-line: transparent;
+  --shadow-1: none;
+  --shadow-pop: none;
+}

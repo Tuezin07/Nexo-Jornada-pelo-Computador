@@ -1,0 +1,306 @@
+/* Painel de configurações simulado (NexoOS). */
+
+.st {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.st-body {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  min-height: 340px;
+}
+
+/* ------------------------------------------------------------ Navegação */
+
+.st-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2);
+  border-right: 1px solid var(--line);
+  background: var(--surface);
+  min-width: 0;
+}
+
+.st-tab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 6px var(--space-3);
+  border: 0;
+  border-radius: var(--radius-s);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  transition: background-color var(--dur-fast), color var(--dur-fast);
+}
+
+.st-tab svg {
+  flex-shrink: 0;
+}
+
+.st-tab:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.st-tab[aria-selected='true'] {
+  background: var(--accent-soft);
+  color: var(--text);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.st-tab[aria-selected='true'] svg {
+  color: var(--accent);
+}
+
+/* --------------------------------------------------------------- Painel */
+
+.st-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-4) var(--space-5) var(--space-5);
+  background: var(--bg-raised);
+}
+
+.st-panel:focus-visible {
+  border-radius: 0;
+  box-shadow: inset 0 0 0 2px var(--signal);
+}
+
+.st-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+
+.st-crumbs > span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.st-crumbs .current {
+  color: var(--text);
+}
+
+.st-crumb-sep {
+  margin: 0 4px;
+  color: var(--text-faint);
+}
+
+.st-group {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.st-group-title {
+  padding: var(--space-3) var(--space-4) var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.st-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.st-text {
+  flex: 1 1 220px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.st-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+label.st-label {
+  cursor: pointer;
+}
+
+.st-desc,
+.st-meta {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+.st-meta {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-faint);
+}
+
+.st-switch {
+  min-height: 36px;
+}
+
+.st-switch .state {
+  min-width: 9ch;
+}
+
+.st-select {
+  flex: 0 1 260px;
+  min-width: 0;
+}
+
+.st-slider {
+  flex: 1 1 260px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.st-slider input[type='range'] {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.st-limit {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-faint);
+}
+
+.st-value {
+  min-width: 6ch;
+  padding: 2px 8px;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--line-strong);
+  background: var(--bg-raised);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* --------------------------------------------------------- Aplicativos */
+
+.st-app {
+  flex-wrap: nowrap;
+}
+
+.st-app-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--line-strong);
+  background: var(--surface-3);
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.st-app .btn,
+.st-removed {
+  flex-shrink: 0;
+}
+
+.st-app.is-removed .st-label {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--text-faint);
+}
+
+.st-app.is-removed .st-app-icon {
+  opacity: 0.5;
+}
+
+.st-status svg {
+  vertical-align: -2px;
+}
+
+.st-dialog-meta {
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+/* ------------------------------------------------ Larguras estreitas */
+/* Adapta-se à largura da própria janela: no desktop ela divide espaço com os objetivos. */
+
+.st {
+  container: st-window / inline-size;
+}
+
+@container st-window (max-width: 600px) {
+  .st-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .st-nav {
+    position: relative;
+    flex-direction: row;
+    overflow-x: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    scrollbar-width: thin;
+  }
+
+  .st-tab {
+    min-height: 44px;
+    white-space: nowrap;
+  }
+
+  .st-tab[aria-selected='true'] {
+    box-shadow: inset 0 -3px 0 var(--accent);
+  }
+
+  .st-panel {
+    padding: var(--space-3);
+  }
+
+  .st-app {
+    flex-wrap: wrap;
+  }
+
+  /* Alinha o botão com o texto, abaixo do ícone do aplicativo. */
+  .st-app .btn,
+  .st-removed {
+    margin-left: calc(38px + var(--space-4));
+  }
+
+  .st-select,
+  .st-slider {
+    flex-basis: 100%;
+  }
+}
+
+@media (pointer: coarse) {
+  .st-tab,
+  .st-switch,
+  .st .btn.small {
+    min-height: 44px;
+  }
+
+  .st-slider input[type='range'] {
+    min-height: 44px;
+  }
+}

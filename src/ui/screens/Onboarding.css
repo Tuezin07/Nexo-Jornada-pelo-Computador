@@ -1,0 +1,338 @@
+@import '../challenges/challenges.css';
+
+.onboarding {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(1200px 500px at 85% -10%, var(--accent-soft), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, var(--signal-soft), transparent 60%);
+}
+
+.ob-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-4);
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.ob-header > a {
+  text-decoration: none;
+  border-radius: var(--radius-s);
+}
+
+.ob-stepper {
+  display: flex;
+  gap: var(--space-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ob-stepper li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  font-weight: 700;
+}
+
+.ob-stepper li + li::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.ob-stepper .dot {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.ob-stepper .current {
+  color: var(--text);
+}
+
+.ob-stepper .current .dot {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.ob-stepper .done .dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+@media (max-width: 560px) {
+  .ob-stepper .label {
+    display: none;
+  }
+}
+
+.ob-body {
+  flex: 1;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-4) var(--space-7);
+}
+
+.ob-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: clamp(var(--space-4), 3vw, var(--space-6));
+  border-radius: var(--radius-l);
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: var(--shadow-pop);
+}
+
+.ob-card h1 {
+  font-size: clamp(1.5rem, 2.4vw + 1rem, 2.3rem);
+}
+
+.ob-card h2 {
+  font-size: 1.3rem;
+}
+
+.ob-card .lead {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 64ch;
+}
+
+.ob-intro h1 {
+  font-size: clamp(2rem, 4vw + 1rem, 3.2rem);
+}
+
+.ob-points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.ob-points li {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.ob-points svg {
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ob-levels {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.ob-level {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  cursor: pointer;
+  color: var(--level-color);
+  transition:
+    border-color var(--dur-fast),
+    transform var(--dur) var(--ease-out),
+    background-color var(--dur-fast);
+}
+
+.ob-level:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--level-color) 50%, var(--line));
+}
+
+.ob-level input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+.ob-level:has(input:checked) {
+  border-color: var(--level-color);
+  background: color-mix(in srgb, var(--level-color) 10%, var(--surface-2));
+  box-shadow: 0 0 0 1px var(--level-color);
+}
+
+.ob-level:has(input:focus-visible) {
+  box-shadow: var(--focus-ring);
+}
+
+.ob-level-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--text);
+}
+
+.ob-level-text strong {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--level-color);
+}
+
+.ob-level-text .tagline {
+  font-weight: 700;
+}
+
+.ob-level-text .desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.ob-level-text .expect {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: var(--text-faint);
+}
+
+.ob-level-text .expect svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.ob-areas {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.ob-area {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--space-3);
+  align-items: start;
+  text-align: left;
+  min-height: 64px;
+  padding: var(--space-3);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  transition: border-color var(--dur-fast), background-color var(--dur-fast);
+}
+
+.ob-area > svg {
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.ob-area strong {
+  display: block;
+  font-size: 0.92rem;
+}
+
+.ob-area .desc {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.ob-area .tick {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px solid var(--line-strong);
+}
+
+.ob-area[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.ob-area[aria-pressed='true'] > svg,
+.ob-area[aria-pressed='true'] .tick {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.ob-area.everything {
+  border-style: dashed;
+}
+
+.ob-why {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: baseline;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.ob-why svg {
+  color: var(--signal);
+  align-self: center;
+}
+
+.ob-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+.ob-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ob-recs {
+  margin: 0;
+  padding-left: 1.3em;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.save-note {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 0.88rem;
+}
+
+.save-note.ok {
+  color: var(--accent);
+}
+
+.save-note.warn {
+  color: var(--warn);
+}
+
+.level-glyph {
+  flex-shrink: 0;
+}

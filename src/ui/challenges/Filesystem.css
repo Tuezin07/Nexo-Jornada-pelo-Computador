@@ -1,0 +1,644 @@
+/* Explorador de arquivos simulado (NexoOS) + painel de objetivos das simulações. */
+
+.fx {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.fx-title-path {
+  min-width: 0;
+  max-width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-faint);
+}
+
+/* ---------------------------------------------------------- Navegação */
+
+.fx-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.fx-crumbs {
+  flex: 1 1 240px;
+  min-width: 0;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-s);
+  background: var(--bg-raised);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.fx-crumbs ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.fx-crumbs li {
+  display: inline-flex;
+  align-items: center;
+}
+
+.fx-crumb-sep {
+  color: var(--text-faint);
+  flex-shrink: 0;
+}
+
+.fx-crumb {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: var(--radius-s);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+button.fx-crumb:hover:not(:disabled) {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.fx-crumb.current {
+  color: var(--text);
+}
+
+.fx-search {
+  position: relative;
+  flex: 0 1 230px;
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+}
+
+.fx-search > svg {
+  position: absolute;
+  left: 10px;
+  color: var(--text-faint);
+  pointer-events: none;
+}
+
+.fx-search .input {
+  min-height: 36px;
+  padding-left: 32px;
+  border-radius: var(--radius-s);
+  font-size: max(16px, 0.9rem);
+}
+
+/* ------------------------------------------------------------ Comandos */
+
+.fx-commands {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.fx-commands .btn.small {
+  font-weight: 600;
+}
+
+.fx-ext-toggle {
+  margin-left: auto;
+  min-height: 36px;
+  gap: var(--space-2);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------- Corpo */
+
+.fx-body {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  min-height: 300px;
+}
+
+.fx-side {
+  /* Contém os textos .visually-hidden (absolutos) dentro da rolagem horizontal no celular. */
+  position: relative;
+  padding: var(--space-2);
+  border-right: 1px solid var(--line);
+  background: var(--surface);
+  min-width: 0;
+}
+
+.fx-side ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fx-side button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 36px;
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius-s);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: left;
+  transition: background-color var(--dur-fast), color var(--dur-fast);
+}
+
+.fx-side button:hover:not(:disabled) {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.fx-side button[aria-current='location'] {
+  background: var(--signal-soft);
+  color: var(--text);
+  box-shadow: inset 3px 0 0 var(--signal);
+}
+
+.fx-side button svg {
+  flex-shrink: 0;
+}
+
+.fx-side-count {
+  margin-left: auto;
+  padding: 0 6px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-faint);
+}
+
+.fx-divider {
+  height: 1px;
+  margin: 6px var(--space-2);
+  background: var(--line);
+}
+
+.fx-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------- Lista */
+
+.fx-grid {
+  flex: 1;
+  max-height: 420px;
+  overflow: auto;
+  background: var(--bg-raised);
+}
+
+.fx-grid:focus-visible {
+  border-radius: 0;
+  box-shadow: inset 0 0 0 2px var(--signal);
+}
+
+.fx-row {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) minmax(0, 150px) 84px;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 0 var(--space-3) 0 var(--space-1);
+  border-bottom: 1px solid var(--line);
+}
+
+.fx-grid.has-location .fx-row {
+  grid-template-columns: 36px minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 140px) 88px;
+}
+
+.fx-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  min-height: 32px;
+  background: var(--surface-2);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.fx-item {
+  cursor: default;
+  user-select: none;
+  transition: background-color var(--dur-fast);
+}
+
+.fx-item:hover {
+  background: var(--surface-2);
+}
+
+.fx-item[aria-selected='true'] {
+  background: var(--signal-soft);
+  box-shadow: inset 3px 0 0 var(--signal);
+}
+
+.fx-grid:focus-visible .fx-item.is-active {
+  outline: 2px dashed var(--signal);
+  outline-offset: -3px;
+}
+
+.fx-item.is-cut .fx-name {
+  opacity: 0.6;
+}
+
+.fx-check {
+  display: flex;
+  align-self: stretch;
+}
+
+.fx-check-hit {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 100%;
+  cursor: pointer;
+}
+
+.fx-check input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.fx-name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.fx-icon {
+  flex-shrink: 0;
+  color: var(--text-faint);
+}
+
+.fx-icon.kind-folder {
+  color: var(--signal);
+}
+
+.fx-icon.kind-archive {
+  color: var(--accent);
+}
+
+.fx-icon.kind-app,
+.fx-icon.kind-media {
+  color: var(--text-muted);
+}
+
+/* O nome nunca é cortado: extensões duplas ("pdf.exe") precisam ficar visíveis. */
+.fx-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 0.92rem;
+  line-height: 1.3;
+  padding-block: 4px;
+}
+
+.fx-rename {
+  min-height: 30px;
+  padding: 0 6px;
+  border-radius: var(--radius-s);
+  border-color: var(--signal);
+  font-size: max(16px, 0.92rem);
+}
+
+.fx-tag {
+  flex-shrink: 0;
+  padding: 0 6px;
+  border-radius: 4px;
+  border: 1px dashed var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.fx-type,
+.fx-loc {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+.fx-loc {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+}
+
+.fx-size {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.fx-head .fx-size {
+  color: var(--text-faint);
+}
+
+.fx-empty {
+  display: block;
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 0.9rem;
+}
+
+.fx-help {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px var(--space-4);
+  padding: 6px var(--space-3);
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+.fx-help kbd {
+  font-size: 0.7rem;
+}
+
+/* -------------------------------------------------------------- Status */
+
+.fx-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.fx-status-msg {
+  min-width: 0;
+}
+
+.fx-status-msg svg {
+  vertical-align: -2px;
+}
+
+.fx-status-count {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------- Diálogo "Mover para" */
+
+.fx-tree {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fx-tree legend {
+  padding: 0;
+  margin-bottom: var(--space-3);
+}
+
+.fx-tree-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 0 var(--space-2) 0 calc(var(--space-2) + var(--depth, 0) * 18px);
+  border-radius: var(--radius-s);
+  cursor: pointer;
+}
+
+.fx-tree-item svg {
+  flex-shrink: 0;
+  color: var(--signal);
+}
+
+.fx-tree-item input {
+  accent-color: var(--accent);
+  margin: 0;
+}
+
+.fx-tree-item:hover {
+  background: var(--surface-2);
+}
+
+.fx-tree-item:has(input:checked) {
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent-line);
+}
+
+.fx-tree-item:has(input:disabled) {
+  cursor: not-allowed;
+  color: var(--text-faint);
+}
+
+.fx-tree-note {
+  font-size: 0.8rem;
+}
+
+/* -------------------------------------------- Painel de objetivos (sims) */
+
+.sim-goals h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sim-goals h3 svg {
+  color: var(--accent);
+}
+
+.sim-goals-count {
+  margin-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+.sim-goals-verify {
+  width: 100%;
+  margin-top: var(--space-3);
+}
+
+/* ------------------------------------------------ Larguras estreitas */
+/*
+ * O explorador se adapta à PRÓPRIA largura (container queries), não à da tela:
+ * no desktop ele divide espaço com o painel de objetivos.
+ */
+
+.fx {
+  container: fx-window / inline-size;
+}
+
+.fx-main {
+  container: fx-list / inline-size;
+}
+
+@container fx-window (max-width: 640px) {
+  .fx-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Todos os atalhos ficam visíveis (inclusive a Lixeira): quebram linha em vez de rolar. */
+  .fx-side {
+    padding: var(--space-2);
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fx-side ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .fx-side button {
+    width: auto;
+    min-height: 40px;
+    white-space: nowrap;
+    border: 1px solid var(--line);
+  }
+
+  .fx-side button[aria-current='location'] {
+    border-color: var(--signal);
+    box-shadow: none;
+  }
+
+  .fx-divider {
+    display: none;
+  }
+
+  .fx-search {
+    flex: 1 1 100%;
+  }
+
+  .fx-ext-toggle {
+    margin-left: 0;
+  }
+
+  .fx-title-path {
+    display: none;
+  }
+}
+
+/* Lista estreita: a tabela vira lista (nome em cima, tipo e local embaixo). */
+@container fx-list (max-width: 520px) {
+  .fx-head {
+    display: none;
+  }
+
+  .fx-row,
+  .fx-grid.has-location .fx-row {
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    grid-template-areas:
+      'check name size'
+      'check loc loc'
+      'check type type';
+    row-gap: 0;
+    min-height: 56px;
+    padding-block: 6px;
+  }
+
+  .fx-check {
+    grid-area: check;
+  }
+
+  .fx-name {
+    grid-area: name;
+  }
+
+  .fx-size {
+    grid-area: size;
+  }
+
+  .fx-loc {
+    grid-area: loc;
+    padding-left: 26px;
+  }
+
+  .fx-type {
+    grid-area: type;
+    padding-left: 26px;
+    font-size: 0.78rem;
+  }
+
+  .fx-check input {
+    width: 22px;
+    height: 22px;
+  }
+
+  .fx-help {
+    display: none;
+  }
+}
+
+/* Telas de toque: alvos de pelo menos 44px. */
+@media (pointer: coarse) {
+  .fx .btn.small {
+    min-height: 44px;
+  }
+
+  .fx .btn.small.icon-only {
+    width: 44px;
+  }
+
+  .fx-crumb {
+    min-height: 40px;
+  }
+
+  .fx-search .input {
+    min-height: 44px;
+  }
+
+  .fx-side button,
+  .fx-tree-item,
+  .fx-ext-toggle {
+    min-height: 44px;
+  }
+
+  .fx-row {
+    min-height: 52px;
+  }
+}

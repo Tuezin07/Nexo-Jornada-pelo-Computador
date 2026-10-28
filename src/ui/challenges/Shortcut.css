@@ -1,0 +1,365 @@
+/* Desafio de atalhos: área de prática (mini documento), progresso e teclas recebidas. */
+
+.sc-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+
+.sc-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sc-steps {
+  display: inline-flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sc-steps li {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-raised);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-faint);
+}
+
+.sc-steps li.is-current {
+  border: 2px solid var(--signal);
+  color: var(--text);
+}
+
+.sc-steps li.is-done {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* --------------------------------------------------------- Área de prática */
+
+.sc-area {
+  position: relative;
+  outline: none;
+  transition:
+    border-color var(--dur-fast),
+    box-shadow var(--dur-fast);
+}
+
+.sc-area[role='application'] {
+  cursor: text;
+}
+
+.sc-area:focus-visible {
+  border-radius: var(--radius);
+}
+
+.sc-area.is-focused {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 3px var(--accent-soft),
+    var(--shadow-1);
+}
+
+.sc-area.is-static {
+  cursor: default;
+}
+
+.sc-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 6ch;
+  justify-content: flex-end;
+  color: var(--accent);
+}
+
+.sc-hint {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 6px var(--space-3);
+  border-bottom: 1px dashed var(--line);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--signal);
+  background: var(--signal-soft);
+}
+
+.sc-hint.is-ready {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.sc-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px var(--space-3);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+  font-size: 0.85rem;
+  animation: rise-in var(--dur) var(--ease-out);
+}
+
+.sc-search-field {
+  display: inline-flex;
+  align-items: center;
+  min-width: 14ch;
+  min-height: 28px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-s);
+  border: 1px solid var(--signal);
+  background: var(--bg-raised);
+  font-family: var(--font-mono);
+}
+
+.sc-doc {
+  padding: var(--space-4);
+  min-height: 96px;
+  font-size: 1rem;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.sc-doc p + p {
+  margin-top: var(--space-2);
+}
+
+.sc-doc .rich p + p {
+  margin-top: var(--space-2);
+}
+
+.sc-doc.sc-all .rich {
+  background: var(--signal-soft);
+  box-shadow: 0 0 0 2px var(--signal-soft);
+}
+
+.sc-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  margin: 0 -1px;
+  vertical-align: text-bottom;
+  background: var(--accent);
+  border-radius: 1px;
+}
+
+.sc-area.is-focused .sc-caret {
+  animation: blink 1.05s steps(1) infinite;
+}
+
+/* Seleção simulada: fundo + contorno inferior (não só cor). */
+.sc-sel {
+  background: var(--signal-soft);
+  box-shadow: inset 0 -2px 0 var(--signal);
+  color: var(--text);
+}
+
+.sc-b {
+  font-weight: 700;
+}
+
+.sc-i {
+  font-style: italic;
+}
+
+.sc-u {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.sc-pasted {
+  background: var(--accent-soft);
+  border-radius: 3px;
+  outline: 1px dashed var(--accent-line);
+}
+
+.sc-typed {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.sc-print {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 var(--space-4) var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius);
+  border: 1px solid var(--line-strong);
+  background: var(--surface-2);
+  box-shadow: var(--shadow-pop);
+  font-size: 0.85rem;
+  animation: pop-in var(--dur) var(--ease-out);
+}
+
+.sc-print strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* -------------------------------------------------------- Teclas recebidas */
+
+.sc-received {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  min-height: 52px;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--bg-raised);
+}
+
+.sc-keys {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  font-size: 1.15rem;
+}
+
+.sc-verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.sc-verdict.ok {
+  color: var(--accent);
+}
+
+.sc-verdict.wrong {
+  color: var(--danger);
+}
+
+.sc-solution {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  border: 1px dashed var(--signal);
+  background: var(--signal-soft);
+}
+
+.sc-solution.is-done {
+  border-style: solid;
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+
+.sc-solution-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1.05rem;
+}
+
+.sc-solution-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ----------------------------------------------------- Retorno de acerto/erro */
+/* Duas animações idênticas: alternar entre elas reinicia o efeito sem remontar. */
+
+.sc-area.is-hit-0,
+.sc-received.is-hit-0 {
+  animation: sc-hit-0 520ms var(--ease-out);
+}
+
+.sc-area.is-hit-1,
+.sc-received.is-hit-1 {
+  animation: sc-hit-1 520ms var(--ease-out);
+}
+
+.sc-area.is-wrong-0,
+.sc-received.is-wrong-0 {
+  animation: sc-wrong-0 360ms var(--ease-in-out);
+}
+
+.sc-area.is-wrong-1,
+.sc-received.is-wrong-1 {
+  animation: sc-wrong-1 360ms var(--ease-in-out);
+}
+
+.sc-received.is-wrong-0,
+.sc-received.is-wrong-1 {
+  border-color: color-mix(in srgb, var(--danger) 55%, transparent);
+}
+
+.sc-received.is-hit-0,
+.sc-received.is-hit-1 {
+  border-color: var(--accent-line);
+}
+
+@keyframes sc-hit-0 {
+  30% {
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+}
+
+@keyframes sc-hit-1 {
+  30% {
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+}
+
+@keyframes sc-wrong-0 {
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+}
+
+@keyframes sc-wrong-1 {
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+}
+
+@media (max-width: 560px) {
+  .sc-doc {
+    padding: var(--space-3);
+  }
+
+  .sc-received {
+    padding: var(--space-2) var(--space-3);
+  }
+}

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Nexo: um jogo de navegador para aprender informática praticando — missões, simulações, atalhos, segurança digital e diagnóstico." />
+    <meta name="theme-color" content="#090c11" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>Nexo — Jornada pelo computador</title>
+    <script>
+      // Aplica tema, movimento e escala de texto antes do React carregar (evita piscar).
+      (function () {
+        try {
+          var p = JSON.parse(localStorage.getItem('nexo:boot') || '{}');
+          var root = document.documentElement;
+          if (p.theme === 'claro' || p.theme === 'contraste') root.dataset.theme = p.theme;
+          var reduce = p.motion === 'reduzido' || (p.motion !== 'completo' && matchMedia('(prefers-reduced-motion: reduce)').matches);
+          root.dataset.motion = reduce ? 'reduced' : 'full';
+          if (p.fontScale) root.style.setProperty('--font-scale', String(p.fontScale));
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>O Nexo precisa de JavaScript ativado para funcionar.</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

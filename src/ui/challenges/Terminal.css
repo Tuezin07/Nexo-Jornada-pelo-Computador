@@ -1,0 +1,264 @@
+/* Terminal simulado (NexoShell). */
+
+.term {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.term-title-icon {
+  vertical-align: -2px;
+  color: var(--accent);
+}
+
+.term-title-path {
+  min-width: 0;
+  max-width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-faint);
+}
+
+.term-screen {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  cursor: text;
+}
+
+.term-output {
+  height: 320px;
+  overflow-y: auto;
+  padding: var(--space-3) var(--space-4);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  scrollbar-width: thin;
+}
+
+.term-output:focus-visible {
+  border-radius: 0;
+  box-shadow: inset 0 0 0 2px var(--signal);
+}
+
+.term-line {
+  position: relative;
+  min-height: 1.55em;
+  padding-left: 2ch;
+  white-space: pre-wrap;
+  color: var(--text);
+}
+
+.term-line.tone-normal {
+  color: var(--text);
+}
+
+.term-line.tone-command {
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.term-line.tone-command:first-child {
+  margin-top: 0;
+}
+
+.term-line.tone-error {
+  color: var(--danger);
+}
+
+.term-line.tone-success {
+  color: var(--accent);
+}
+
+.term-line.tone-folder {
+  color: var(--signal);
+}
+
+.term-line.tone-muted {
+  color: var(--text-faint);
+}
+
+/* Marcadores na margem: a cor nunca é o único sinal. */
+.term-line.tone-command::before,
+.term-line.tone-error::before,
+.term-line.tone-success::before {
+  position: absolute;
+  left: 0;
+}
+
+.term-line.tone-command::before {
+  content: '$';
+  content: '$' / '';
+  color: var(--accent);
+}
+
+.term-line.tone-error::before {
+  content: '!';
+  content: '!' / '';
+}
+
+.term-line.tone-success::before {
+  content: '✓';
+  content: '✓' / '';
+}
+
+.term-input-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-4);
+  border-top: 1px dashed var(--line-strong);
+  background: var(--bg-raised);
+  transition: box-shadow var(--dur-fast);
+}
+
+.term-input-row:focus-within {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.term-prompt {
+  flex-shrink: 1;
+  min-width: 0;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.term-input {
+  /* Base 0: ignora a largura intrínseca do <input> e divide a linha com o botão. */
+  flex: 1 1 0;
+  width: 0;
+  min-width: 4ch;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-mono);
+  /* 16px evita o zoom automático do iOS ao focar. */
+  font-size: max(16px, 0.9rem);
+  caret-color: var(--accent);
+}
+
+.term-input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.term-input:disabled {
+  cursor: not-allowed;
+}
+
+.term-run {
+  flex-shrink: 0;
+  font-family: var(--font-body);
+}
+
+.term-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.term-suggestions ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.term-chip {
+  min-height: 32px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--dur-fast), color var(--dur-fast), background-color var(--dur-fast);
+}
+
+.term-chip:hover:not(:disabled) {
+  border-color: var(--accent-line);
+  color: var(--text);
+}
+
+.term-chip:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.term-sug-note {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+}
+
+.term-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px var(--space-4);
+  padding: 6px var(--space-3);
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+.term-keys kbd {
+  font-size: 0.7rem;
+}
+
+/* Adapta-se à largura da própria janela (no desktop ela divide espaço com os objetivos). */
+.term {
+  container: term-window / inline-size;
+}
+
+@container term-window (max-width: 520px) {
+  .term-output {
+    height: 260px;
+    padding: var(--space-3);
+    font-size: 0.8rem;
+  }
+
+  /* O caminho do prompt ganha uma linha própria para não ser cortado. */
+  .term-input-row {
+    flex-wrap: wrap;
+    row-gap: 2px;
+    padding-left: var(--space-3);
+  }
+
+  .term-prompt {
+    flex-basis: 100%;
+    max-width: none;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .term-title-path {
+    display: none;
+  }
+}
+
+@media (pointer: coarse) {
+  .term-chip {
+    min-height: 44px;
+    padding: 0 14px;
+  }
+
+  .term-run {
+    min-height: 44px;
+  }
+
+  .term-input {
+    min-height: 44px;
+  }
+}

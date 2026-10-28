@@ -1,0 +1,91 @@
+name: Verificar e publicar no GitHub Pages
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    name: Verificar, testar e gerar o build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências (reprodutível)
+        run: npm ci
+
+      - name: Verificar tipos
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Testes unitários e de integração
+        run: npm test
+
+      - name: Configurar GitHub Pages
+        id: pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+
+      # O caminho-base vem da configuração real do Pages (ex.: /nome-do-repositorio/).
+      # Em pull requests, usa o nome do repositório para testar a publicação em subcaminho.
+      - name: Definir caminho-base
+        run: echo "BASE_PATH=${{ steps.pages.outputs.base_path || format('/{0}/', github.event.repository.name) }}" >> "$GITHUB_ENV"
+
+      - name: Gerar build de produção
+        run: npm run build
+
+      - name: Instalar navegador dos testes E2E
+        run: npx playwright install --with-deps chromium
+
+      - name: Testes E2E no build de produção (em subcaminho)
+        run: npm run test:e2e
+
+      - name: Guardar relatório E2E em caso de falha
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-e2e
+          path: |
+            playwright-report
+            test-results
+          retention-days: 7
+
+      - name: Enviar artefato do site
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  publicar:
+    name: Publicar
+    needs: verificar
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
